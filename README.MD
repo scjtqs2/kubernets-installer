@@ -62,3 +62,8 @@ bash init-config.sh
     4. 证书申请demo：
        1. 修改 `test-cf-cert.yaml` 中的域名、证书名、命名空间
        2. 执行 `kubectl -f test-cf-cert.yaml`
+12. 安装一个web管理面板：
+    1. 执行 `kubectl apply -f kuboard-v3.yaml`
+    2. 安装完成后，打开 http://你的ip:30080 进行登录
+    3. 默认账号 admin
+    4. 默认密码 Kuboard123
