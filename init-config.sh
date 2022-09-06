@@ -32,6 +32,28 @@ echo \
 sudo apt-get update
 sudo apt-get install docker-ce
 
+sudo tee /etc/docker/daemon.json<<EOF
+{
+    "ipv6": true,
+    "experimental": true,
+    "fixed-cidr-v6": "fd00:dead:beef::/48",
+    "ip6tables": true,
+  "registry-mirrors": [],
+    "exec-opts": ["native.cgroupdriver=systemd"],
+  "log-driver": "json-file",
+  "log-opts": {
+    "max-size": "100m"
+  },
+  "storage-driver": "overlay2",
+  "storage-opts": [
+    "overlay2.override_kernel_check=true"
+  ]
+}
+EOF
+
+sudo systemctl enable docker
+sudo systemctl restart docker
+
 # 安装k8s
 echo "开始安装k8s"
 curl https://mirrors.aliyun.com/kubernetes/apt/doc/apt-key.gpg | sudo apt-key add -
