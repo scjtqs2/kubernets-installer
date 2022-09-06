@@ -1,0 +1,92 @@
+---
+apiVersion: v1
+data:
+  unbound.conf: |
+    server:
+      verbosity: 1
+      interface: 0.0.0.0
+      interface: ::0
+      logfile: ''
+      do-ip4: yes
+      do-ip6: yes
+      do-udp: yes
+      do-tcp: yes
+      do-daemonize: no
+      access-control: 0.0.0.0/0 allow
+      access-control: ::/0 allow
+      directory: "/etc/unbound"
+      username: unbound
+      auto-trust-anchor-file: trusted-key.key
+      root-hints: "/etc/unbound/root.hints"
+      harden-dnssec-stripped: no
+      disable-dnssec-lame-check: yes
+      domain-insecure: "cluster.local"
+      hide-identity: yes
+      hide-version: yes
+      cache-min-ttl: 300
+      private-domain: "cluster.local"
+      local-zone: ".172.in-addr.arpa." nodefault
+      stub-zone:
+        name: "cluster.local"
+        # 填你的k8s内部coredns的地址
+        stub-addr: {{ COREDNS }}@53
+      forward-zone:
+        name: "."
+        forward-tls-upstream: yes
+        # Quad9
+        forward-addr: 9.9.9.9@853 #dns.quad9.net
+        forward-addr: 149.112.112.112@853 #dns.quad9.net
+        # Cloudflare DNS
+        forward-addr: 1.1.1.1@853 #cloudflare-dns.com
+        forward-addr: 1.0.0.1@853 #cloudflare-dns.com
+kind: ConfigMap
+metadata:
+  name: unbound-conf
+  namespace: kube-system
+
+---
+kind: StatefulSet
+apiVersion: apps/v1
+metadata:
+  name: self-dns
+  namespace: kube-system
+spec:
+  serviceName: self-dns
+  selector:
+    matchLabels:
+      app: self-dns
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: self-dns
+      annotations:
+        kube-ipam.ip: "172.16.119.119"
+        kube-ipam.netmask: "255.240.0.0"
+        kube-ipam.gateway: "172.16.0.1"
+        cni.projectcalico.org/ipAddrs: "[\"172.16.119.119\"]"
+    spec:
+      volumes:
+        - name: unbond-overwride
+          configMap:
+            name: unbound-conf
+            items:
+              - key: unbound.conf
+                path: unbound.conf
+      containers:
+        - name: unbond
+          image: scjtqs/mailu-unbound:1.9.35
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: COREDNS
+              value: 10.96.0.10
+          volumeMounts:
+            - name: unbond-overwride
+              mountPath: /unbound.conf
+              subPath: unbound.conf
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      securityContext: { }
+      schedulerName: default-scheduler
+
