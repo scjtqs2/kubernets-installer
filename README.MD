@@ -26,6 +26,12 @@ bash init-config.sh
    > 安装完成后，会有提示让你复制秘钥文件到 $HOME/.kube 下，安装它的提示执行相关命令即可
    > 
    > 如果你是单节点运行，请在配置了config后执行 `bash single_master.sh`
+4. 配置k8s秘钥
+```shell
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+```
 ## 三、安装其他k8s插件
 1. 安装calico(v3.23.3)网络插件(已调整支持ipv6)
     ```shell
