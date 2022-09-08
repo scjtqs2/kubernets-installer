@@ -44,14 +44,14 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
    > `kubectl apply -f ingress_nodeport.yaml`
    > 
    > 安装完成后，执行 `kubectl get svc -n ingress-nginx` 可以看到 80和443分别映射出来的端口。
-3. (可选，非必须) 使容器内部能够访问外部的Ipv6公网地址。
+3. (可选，非必须) ip-masq-agent 使容器内部能够访问外部的Ipv6公网地址。
    1. `kubectl apply -f ip-masq-agent-config.yaml`
    2. `kubectl apply -f ip-masq-agent.yaml`
 4. 安装 helm 包管理器
     ```shell
     bash install-helm.sh
     ```
-5. 安装自定义dns服务（有时候自带的coredns不解析的时候用它挺好的）
+5. dns-custom 安装自定义dns服务（有时候自带的coredns不解析的时候用它挺好的）
    `kubectl apply -f dns-custom.yaml`
 6. 安装证书免费签发工具cert-manager
    `bash install-CRDs-with-customdns.sh`
