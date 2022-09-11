@@ -32,7 +32,7 @@ mkdir -p $HOME/.kube
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 ```
-5.   #### 取消k8s初始化
+5.   #### 取消k8s初始化 （如果你不想再要当前k8s环境了的话）
    `sudo kubeadm reset -f` 执行这个，将会完全干掉当前的k8s环境。
 ## 三、安装其他k8s插件
 1. 安装calico(v3.23.3)网络插件(已调整支持ipv6)
