@@ -32,11 +32,15 @@ mkdir -p $HOME/.kube
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 ```
+5.   #### 取消k8s初始化
+   `sudo kubeadm reset -f` 执行这个，将会完全干掉当前的k8s环境。
 ## 三、安装其他k8s插件
 1. 安装calico(v3.23.3)网络插件(已调整支持ipv6)
     ```shell
     kubectl apply -f calico.yaml
     ```
+    #### 卸载说明
+    > 卸载方式： `kubectl delete -f calico.yaml`
 2. 安装ingress(1.3.0)，这里有两种方式安装,二选一:
    1. hostport。会占用本机的80和443端口。如果本机不需要nginx或者nginx配置成其他端口，可以使用。
      > `kubectl apply -f ingress_hostport.yaml`
@@ -44,24 +48,44 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
    > `kubectl apply -f ingress_nodeport.yaml`
    > 
    > 安装完成后，执行 `kubectl get svc -n ingress-nginx` 可以看到 80和443分别映射出来的端口。
+   >
+   > 输入 `kubectl get pod -n ingress-nginx` 查看ingress的安装进度。等所有pod都ok了，就可以了。
+   #### 卸载说明
+   > `kbuectl delete -f ingress_hostport.yaml` 或者  `kbuectl delete -f ingress_nodeport.yaml` 填你安装的时候选择的方式。
+
+
 3. (可选，非必须) ip-masq-agent 使容器内部能够访问外部的Ipv6公网地址。
    1. `kubectl apply -f ip-masq-agent-config.yaml`
    2. `kubectl apply -f ip-masq-agent.yaml`
+   #### 卸载方式
+   > ```shell
+   > kubectl delete -f ip-masq-agent.yaml
+   > kubectl delete -f ip-masq-agent-config.yaml
+   > ```
 4. 安装 helm 包管理器
     ```shell
     bash install-helm.sh
     ```
+    #### 卸载方式：
+    `sudo apt-get remove helm`
 5. dns-custom 安装自定义dns服务（有时候自带的coredns不解析的时候用它挺好的）
    `kubectl apply -f dns-custom.yaml`
+   #### 卸载方式：
+   `kubectl delete -f dns-custom.yaml`
 6. 安装证书免费签发工具cert-manager
    `bash install-CRDs-with-customdns.sh`
+   #### 卸载方式
+   `helm uninstall cert-manager --namespace cert-manager`
 7. (可选，非必须) 添加dnspod(实际是腾讯云接口)的dns证书签名验证方式
+   > 需要先安装 cert-manager 才能安装该 cert-manager的插件。
    1. 通过 https://console.cloud.tencent.com/cam/capi 获取`secretid`和 `secretkey`.
    2. 修改 `install-qcloud-cm.sh` 中的对应的参数 
    3. 执行 `bash install-qcloud-cm.sh`
    4. 证书申请demo：
       1. 修改 `test-dnspod-cert.yaml` 中的域名、证书名、命名空间
       2. 执行 `kubectl -f test-dnspod-cert.yaml`
+   #### 卸载方式：
+   `helm uninstall cert-manager-webhook-dnspod -n cert-manager`
 8. (可选，非必须) 添加cloudflare 方式进行dns证书签名
    1. 打开`clouflare-cm.yaml` 填入你的对应信息。
    2. `apiTokenSecretRef` 和 `apiKeySecretRef` 二选一。注释掉另一方。
@@ -69,8 +93,12 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
    4. 证书申请demo：
       1. 修改 `test-cf-cert.yaml` 中的域名、证书名、命名空间
       2. 执行 `kubectl -f test-cf-cert.yaml`
+   #### 卸载方式：
+   `kubectl delete -f clouflare-cm.yaml`
 9. 安装一个web管理面板：
    1. 执行 `kubectl apply -f kuboard-v3.yaml`
    2. 安装完成后，打开 http://你的ip:30080 进行登录
    3. 默认账号 admin
    4. 默认密码 Kuboard123
+   #### 卸载方式：
+   `kubectl delete -f kuboard-v3.yaml`
