@@ -7,6 +7,8 @@ data:
       interface: 0.0.0.0
       interface: ::0
       logfile: ''
+      log-queries: yes
+      log-replies: yes
       do-ip4: yes
       do-ip6: yes
       do-udp: yes
