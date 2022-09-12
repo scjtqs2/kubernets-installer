@@ -28,6 +28,7 @@ spec:
     server: https://acme-v02.api.letsencrypt.org/directory
     solvers:
     - dns01:
+        cnameStrategy: None
         cloudflare:
           email: <你的邮箱>  # 替换成你的 cloudflare 邮箱账号，API Token 方式认证非必需，API Keys 认证是必需
           apiTokenSecretRef:       # apiTokenSecretRef 和 apiKeySecretRef 二选一
