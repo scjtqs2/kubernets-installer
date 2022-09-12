@@ -18,6 +18,8 @@ net.ipv6.conf.all.disable_ipv6 = 0
 net.ipv6.conf.default.disable_ipv6 = 0
 net.ipv6.conf.lo.disable_ipv6 = 0
 net.ipv6.conf.all.forwarding=1
+fs.inotify.max_user_instances=512
+fs.inotify.max_user_watches=262144
 EOF
 
 sudo sysctl --system
