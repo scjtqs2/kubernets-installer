@@ -5,6 +5,14 @@ overlay
 br_netfilter
 EOF
 
+sudo tee /etc/modules-load.d/ipvs.conf<<EOF
+ip_vs
+ip_vs_rr
+ip_vs_wrr
+ip_vs_sh
+nf_conntrack
+EOF
+
 sudo modprobe overlay
 
 sudo modprobe br_netfilter
