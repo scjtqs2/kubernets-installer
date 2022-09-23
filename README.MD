@@ -16,7 +16,7 @@ bash init-config.sh
 ## 二、初始化你的 k8s 机器
 1. `sudo vim /etc/default/kubelet` 添加下述内容:
    ```shell
-    KUBELET_EXTRA_ARGS=--cgroup-driver=systemd --fail-swap-on=false --feature-gates=IPv6DualStack=true
+    KUBELET_EXTRA_ARGS=--cgroup-driver=systemd --fail-swap-on=false --feature-gates=IPv6DualStack=true --max-pods=900
    ```
 2. 打开 `kubeadm-config-aliyun.yaml` 文件，根据提示修改里面的一些配置。例如ip、域名等。
 3. 执行初始化命令：
