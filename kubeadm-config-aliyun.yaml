@@ -51,7 +51,7 @@ featureGates:
   NodeSwap: true
 memorySwap: 
   swapBehavior: UnlimitedSwap
-resolvConf: /etc/resolv.conf
+#resolvConf: /etc/resolv.conf
 # kubelet specific options here
 ---
 apiVersion: kubeproxy.config.k8s.io/v1alpha1
