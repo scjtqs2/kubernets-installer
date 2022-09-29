@@ -12,7 +12,10 @@ bash init-config.sh
 + 安装docker-ce
 + 安装1.23.9版本的k8s工具
 #### 如果上述部分内容你已经有了，可以查看`init-config.sh`脚本，手动执行部分命令。
-
+#### 关于dns配置信息 
+> 确保你具备 `/run/systemd/resolve/resolv.conf` 文件，也就是 `sudo systemctl enable --now systemd-resolved.service`
+> 
+> 如果你想要使用 `/etc/resolv.conf` 而不是`/run/systemd/resolve/resolv.conf`文件。请修改`kubeadm-config-aliyun.yaml` 中的 `#resolvConf: /etc/resolv.conf`。改成 `resolvConf: /etc/resolv.conf` 取消注释即可
 ## 二、初始化你的 k8s 机器
 1. `sudo vim /etc/default/kubelet` 添加下述内容:
    ```shell
