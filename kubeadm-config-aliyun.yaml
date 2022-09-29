@@ -32,7 +32,7 @@ dns: {}
 etcd:
   local:
     dataDir: /var/lib/etcd
-imageRepository: registry.aliyuncs.com/google_containers      # 这里已经将镜像地址替换成了阿里云的地址。正版地址被墙了。
+imageRepository: registry.aliyuncs.com/google_containers      # 这里已经将镜像地址替换成了阿里云的地址。正版地址被墙了。 正版地址是 k8s.gcr.io
 featureGates:
   IPv6DualStack: true
 kind: ClusterConfiguration
