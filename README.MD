@@ -108,9 +108,9 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
 
 ### k8s 小版本升级
-1. 查看是否有可升级的版本： `sudo kubeadm upgrade plan`
-2. 安装新的小版本的工具。例如安装 1.23.12版本： `sudo apt install -y kubelet=1.23.12-00 kubeadm=1.23.12-00 kubectl=1.23.12-00 --allow-downgrades --allow-change-held-packages`
-3. 执行集群升级。 例如升级到 1.23.12: `sudo kubeadm upgrade apply v1.23.12`
-4. 锁定 kubeadm工具版本号： `sudo apt-mark hold kubelet kubeadm kubectl`
+1. 查看是否有可升级的版本（仅master执行）： `sudo kubeadm upgrade plan`
+2. 安装新的小版本的工具。(master和node都执行) 例如安装 1.23.12版本： `sudo apt install -y kubelet=1.23.12-00 kubeadm=1.23.12-00 kubectl=1.23.12-00 --allow-downgrades --allow-change-held-packages`
+3. 执行集群升级。（仅master执行） 例如升级到 1.23.12: `sudo kubeadm upgrade apply v1.23.12`
+4. 锁定 kubeadm工具版本号 (master和node都执行)： `sudo apt-mark hold kubelet kubeadm kubectl`
 
 ps: 大版本升级需要小心，注意api版本是否兼容。k8s大版本升级只能一级一级的升上去。不能跨多个大版本升级。
