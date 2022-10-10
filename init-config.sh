@@ -66,10 +66,10 @@ sudo systemctl restart docker
 
 # 安装k8s
 echo "开始安装k8s"
-curl https://mirrors.aliyun.com/kubernetes/apt/doc/apt-key.gpg | sudo apt-key add -
+#curl https://mirrors.aliyun.com/kubernetes/apt/doc/apt-key.gpg | sudo apt-key add -
 
-#sudo apt-add-repository "deb https://mirrors.aliyun.com/kubernetes/apt/ kubernetes-xenial main"
-echo "deb https://mirrors.aliyun.com/kubernetes/apt/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/k8s.list
+sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://mirrors.aliyun.com/kubernetes/apt/doc/apt-key.gpg
+echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://mirrors.tuna.tsinghua.edu.cn/kubernetes/apt kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/k8s.list
 sudo apt-get update
 sudo apt install -y kubelet=1.23.9-00 kubeadm=1.23.9-00 kubectl=1.23.9-00 --allow-downgrades --allow-change-held-packages
 sudo apt-mark hold kubelet kubeadm kubectl
