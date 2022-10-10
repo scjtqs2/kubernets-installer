@@ -66,11 +66,18 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
    > kubectl delete -f ip-masq-agent-config.yaml
    > ```
 4. 安装 helm 包管理器
-    ```shell
-    bash install-helm.sh
-    ```
-    #### 卸载方式：
-    `sudo apt-get remove helm`
+   1. 通过 apt源安装 (国内可能会被墙 或者速度慢)
+       ```shell
+       bash install-helm.sh
+       ```
+       #### 卸载方式：
+       `sudo apt-get remove helm`
+   2. 通过snap包安装 (ubuntu自带snap)
+      ```shell
+      bash install-helm-snap.sh
+      ```
+      #### 卸载方式：
+      `sudo snap remove helm`
 5. dns-custom 安装自定义dns服务（有时候自带的coredns不解析的时候用它挺好的）
    `kubectl apply -f dns-custom.yaml`
    #### 卸载方式：
