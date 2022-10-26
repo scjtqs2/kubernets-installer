@@ -121,3 +121,13 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 4. 锁定 kubeadm工具版本号 (master和node都执行)： `sudo apt-mark hold kubelet kubeadm kubectl`
 
 ps: 大版本升级需要小心，注意api版本是否兼容。k8s大版本升级只能一级一级的升上去。不能跨多个大版本升级。
+
+### !!!k8s 系统证书问题
+因为默认生成的证书有效期只有1年，所以每年都需要更新一次系统证书。
+
+这里提供脚本把系统证书刷新成10年的
+```shell
+sudo bash update-kubeadm-cert.sh all
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+```
