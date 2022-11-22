@@ -78,6 +78,8 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
       ```
       #### 卸载方式：
       `sudo snap remove helm`
+   3. 通过二进制包安装：
+      去`https://github.com/helm/helm/releases`下载安装即可
 5. dns-custom 安装自定义dns服务（有时候自带的coredns不解析的时候用它挺好的）
    `kubectl apply -f dns-custom.yaml`
    #### 卸载方式：
