@@ -37,13 +37,17 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 ```
 5.   #### 取消k8s初始化 （如果你不想再要当前k8s环境了的话）
    `sudo kubeadm reset -f` 执行这个，将会完全干掉当前的k8s环境。
-## 三、安装其他k8s插件
+## 三、安装其他k8s插件 (如果你没有IPV6公网地址，请使用no_ipv6后缀的部分脚本和配置)
 1. 安装calico(v3.23.3)网络插件(已调整支持ipv6)
     ```shell
     kubectl apply -f calico.yaml
     ```
     #### 卸载说明
     > 卸载方式： `kubectl delete -f calico.yaml`
+    ### !!!!!!!!!!!!特别说明！！！！！！！！！！！
+    > 如果你部署过程中 一直发现  `calico-node-xxxxx` 这个pod init失败。请打开 `calico.yaml` 或者 `calico_noipv6.yaml`文件
+    > 
+    > 找到 `IP_AUTODETECTION_METHOD`的配置。将 `interface=^e.*` 补充得更详细点（正则匹配网卡出问题了，可能匹配出来了多个）。例如你的lan网卡是 'eth0'。则这里可以填`interface=^eth.*`
 2. 安装ingress(1.3.0)，这里有两种方式安装,二选一:
    1. hostport。会占用本机的80和443端口。如果本机不需要nginx或者nginx配置成其他端口，可以使用。
      > `kubectl apply -f ingress_hostport.yaml`
@@ -143,3 +147,4 @@ sudo bash update-kubeadm-cert.sh all
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 ```
+
