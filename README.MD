@@ -107,13 +107,23 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
       2. 执行 `kubectl -f test-cf-cert.yaml`
    #### 卸载方式：
    `kubectl delete -f clouflare-cm.yaml`
-9. 安装一个web管理面板：
-   1. 执行 `kubectl apply -f kuboard-v3.yaml`
-   2. 安装完成后，打开 http://你的ip:30080 进行登录
-   3. 默认账号 admin
-   4. 默认密码 Kuboard123
+9. (可选，非必须) 添加aliyun的dns证书签名验证方式
+   > 需要先安装 cert-manager 才能安装该 cert-manager的插件。
+   1. 通过 https://ak-console.aliyun.com/?spm=5176.2020520001.0.0.dCHOyj#/accesskey 获取`Access Key ID`和 `Access Key Secret`.
+   2. 修改 `install-aliyun-cm.sh` 中的对应的参数
+   3. 执行 `bash install-aliyun-cm.sh`
+   4. 证书申请demo：
+      1. 修改 `test-alidns-cert.yaml` 中的域名、证书名、命名空间
+      2. 执行 `kubectl -f test-alidns-cert.yaml`
    #### 卸载方式：
-   `kubectl delete -f kuboard-v3.yaml`
+   `kubectl delete -f alidns.yaml`
+10. 安装一个web管理面板：
+    1. 执行 `kubectl apply -f kuboard-v3.yaml`
+    2. 安装完成后，打开 http://你的ip:30080 进行登录
+    3. 默认账号 admin
+    4. 默认密码 Kuboard123
+    #### 卸载方式：
+    `kubectl delete -f kuboard-v3.yaml`
 
 
 ### k8s 小版本升级
