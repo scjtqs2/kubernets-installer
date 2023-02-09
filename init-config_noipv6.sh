@@ -43,6 +43,7 @@ echo \
 sudo apt-get update
 sudo apt-get install docker-ce -y
 
+sudo mkdir -p /etc/docker
 sudo tee /etc/docker/daemon.json<<EOF
 {
 
