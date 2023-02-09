@@ -37,6 +37,7 @@ featureGates:
   IPv6DualStack: true
 kind: ClusterConfiguration
 kubernetesVersion: 1.23.9
+controlPlaneEndpoint: ""                                      # 多master的情况下，这里填入vip:port 对应的值。
 networking:
   dnsDomain: cluster.local
   serviceSubnet: 10.96.0.0/12,fd00::/108
