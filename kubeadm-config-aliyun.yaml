@@ -36,7 +36,7 @@ imageRepository: registry.aliyuncs.com/google_containers      # 这里已经将�
 featureGates:
   IPv6DualStack: true
 kind: ClusterConfiguration
-kubernetesVersion: 1.23.9
+kubernetesVersion: 1.23.16
 controlPlaneEndpoint: ""                                      # 多master的情况下，这里填入vip:port 对应的值。
 networking:
   dnsDomain: cluster.local
