@@ -58,7 +58,7 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
    >
    > 输入 `kubectl get pod -n ingress-nginx` 查看ingress的安装进度。等所有pod都ok了，就可以了。
    #### 卸载说明
-   > `kbuectl delete -f ingress_hostport.yaml` 或者  `kbuectl delete -f ingress_nodeport.yaml` 填你安装的时候选择的方式。
+   > `kubectl delete -f ingress_hostport.yaml` 或者  `kubectl delete -f ingress_nodeport.yaml` 填你安装的时候选择的方式。
 
 
 3. (可选，非必须) ip-masq-agent 使容器内部能够访问外部的Ipv6公网地址。
