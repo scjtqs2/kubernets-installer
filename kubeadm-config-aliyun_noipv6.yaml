@@ -34,7 +34,7 @@ etcd:
     dataDir: /var/lib/etcd
 imageRepository: registry.aliyuncs.com/google_containers      # 这里已经将镜像地址替换成了阿里云的地址。正版地址被墙了。 正版地址是 k8s.gcr.io
 featureGates:
-  IPv6DualStack: true
+  IPv6DualStack: false
 kind: ClusterConfiguration
 kubernetesVersion: 1.23.16
 controlPlaneEndpoint: ""                                      # 多master的情况下，这里填入vip:port 对应的值。
