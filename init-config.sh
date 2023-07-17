@@ -41,7 +41,9 @@ echo \
   "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/ubuntu \
   $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 sudo apt-get update
-sudo apt-get install docker-ce -y
+#sudo apt-get install docker-ce -y
+VERSION_STRING=5:20.10.24~3-0~ubuntu-jammy
+sudo apt-get install docker-ce=$VERSION_STRING docker-ce-cli=$VERSION_STRING containerd.io docker-buildx-plugin docker-compose-plugin
 
 sudo mkdir -p /etc/docker
 sudo tee /etc/docker/daemon.json<<EOF
