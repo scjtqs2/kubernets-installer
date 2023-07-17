@@ -10,7 +10,7 @@ bash init-config.sh
 + 配置必要的内核加载
 + 配置必要的网络环境
 + 安装docker-ce
-+ 安装1.23.9版本的k8s工具
++ 安装1.23.16版本的k8s工具
 #### 如果上述部分内容你已经有了，可以查看`init-config.sh`脚本，手动执行部分命令。
 #### 关于dns配置信息 
 > 确保你具备 `/run/systemd/resolve/resolv.conf` 文件，也就是 `sudo systemctl enable --now systemd-resolved.service`
