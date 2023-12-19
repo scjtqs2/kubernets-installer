@@ -1,7 +1,9 @@
-# 基于ubuntu 22 快速安装 k8s 1.23.16 环境
+# 基于ubuntu 22 快速安装 k8s 1.26.6 环境
 > 支持 amd64和 arm64环境
 > 
 > 已配置ipv4、ipv6双网络支持。
+> 
+> 较新版本的k8s已经不支持docker了，需要配置containerd
 ## 一、快速配置环境：
 ```shell
 bash init-config.sh
@@ -9,8 +11,8 @@ bash init-config.sh
 #### 运行上述脚本，将执行下述内容：
 + 配置必要的内核加载
 + 配置必要的网络环境
-+ 安装docker-ce
-+ 安装1.23.16版本的k8s工具
++ 安装containerd
++ 安装1.26.6版本的k8s工具
 #### 如果上述部分内容你已经有了，可以查看`init-config.sh`脚本，手动执行部分命令。
 #### 关于dns配置信息 
 > 确保你具备 `/run/systemd/resolve/resolv.conf` 文件，也就是 `sudo systemctl enable --now systemd-resolved.service`
@@ -19,7 +21,7 @@ bash init-config.sh
 ## 二、初始化你的 k8s 机器
 1. `sudo vim /etc/default/kubelet` 添加下述内容:
    ```shell
-    KUBELET_EXTRA_ARGS=--cgroup-driver=systemd --fail-swap-on=false --feature-gates=IPv6DualStack=true --max-pods=900
+    KUBELET_EXTRA_ARGS=--cgroup-driver=systemd --fail-swap-on=false --max-pods=900
    ```
 2. 打开 `kubeadm-config-aliyun.yaml` 文件，根据提示修改里面的一些配置。例如ip、域名等。
 3. 执行初始化命令：
@@ -132,8 +134,8 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
 ### k8s 小版本升级
 1. 查看是否有可升级的版本（仅master执行）： `sudo kubeadm upgrade plan`
-2. 安装新的小版本的工具。(master和node都执行) 例如安装 1.23.12版本： `sudo apt install -y kubelet=1.23.12-00 kubeadm=1.23.12-00 kubectl=1.23.12-00 --allow-downgrades --allow-change-held-packages`
-3. 执行集群升级。（仅master执行） 例如升级到 1.23.12: `sudo kubeadm upgrade apply v1.23.12`
+2. 安装新的小版本的工具。(master和node都执行) 例如安装 1.26.7版本： `sudo apt install -y kubelet=1.26.7-00 kubeadm=1.26.7-00 kubectl=1.6.7-00 --allow-downgrades --allow-change-held-packages`
+3. 执行集群升级。（仅master执行） 例如升级到 1.26.7: `sudo kubeadm upgrade apply v1.26.7`
 4. 锁定 kubeadm工具版本号 (master和node都执行)： `sudo apt-mark hold kubelet kubeadm kubectl`
 
 ps: 大版本升级需要小心，注意api版本是否兼容。k8s大版本升级只能一级一级的升上去。不能跨多个大版本升级。
@@ -143,7 +145,7 @@ ps: 大版本升级需要小心，注意api版本是否兼容。k8s大版本升�
 
 这里提供脚本把系统证书刷新成10年的
 ```shell
-sudo bash update-kubeadm-cert.sh all
+sudo bash update-kubeadm-cert-crictl.sh all
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 ```

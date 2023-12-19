@@ -12,7 +12,7 @@ localAPIEndpoint:
   advertiseAddress: 192.168.50.185      # 填你机器的内网ip。（你有固定的公网ip，且想进行公网集群部署，这样的话，填你公网Ip）
   bindPort: 6443
 nodeRegistration:
-  criSocket: /var/run/dockershim.sock
+  #criSocket: /var/run/containerd/containerd.sock
   imagePullPolicy: IfNotPresent
   name: dq77kb                          # 填写你的当前的计算机名 通过 `hostname` 命令可以看到
   taints: null
@@ -33,10 +33,10 @@ etcd:
   local:
     dataDir: /var/lib/etcd
 imageRepository: registry.aliyuncs.com/google_containers      # 这里已经将镜像地址替换成了阿里云的地址。正版地址被墙了。 正版地址是 k8s.gcr.io
-featureGates:
-  IPv6DualStack: true
+#featureGates:
+#  IPv6DualStack: true
 kind: ClusterConfiguration
-kubernetesVersion: 1.23.16
+kubernetesVersion: 1.26.6
 controlPlaneEndpoint: ""                                      # 多master的情况下，这里填入vip:port 对应的值。
 networking:
   dnsDomain: cluster.local
@@ -50,7 +50,7 @@ kind: KubeletConfiguration
 failSwapOn: false
 featureGates:
   NodeSwap: true
-memorySwap: 
+memorySwap:
   swapBehavior: UnlimitedSwap
 #resolvConf: /etc/resolv.conf
 # kubelet specific options here
