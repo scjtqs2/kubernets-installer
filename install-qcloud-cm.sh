@@ -1,8 +1,7 @@
 #!/bin/bash
 # 这里用的是腾讯云的 secretid和 secretkey. 而不是 dnspod的appid和token
 # 通过 https://console.cloud.tencent.com/cam/capi 这里获取
-helm repo add roc https://charts.imroc.cc
-helm upgrade --install cert-manager-webhook-dnspod roc/cert-manager-webhook-dnspod \
+helm upgrade --install cert-manager-webhook-dnspod ./qcloud-cm \
     --namespace cert-manager \
     --set clusterIssuer.secretId="你的腾讯云secretid" \
     --set clusterIssuer.secretKey="你的腾讯云secretKey" \
