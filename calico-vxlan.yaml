@@ -47,7 +47,7 @@ data:
   # Typha is disabled.
   typha_service_name: "none"
   # Configure the backend to use.
-  calico_backend: "bird"
+  calico_backend: "vxlan"
 
   # Configure the MTU to use for workload interfaces and tunnels.
   # By default, MTU is auto-detected, and explicitly setting this field should not be required.
@@ -4897,22 +4897,18 @@ spec:
             # Cluster type to identify the deployment type
             - name: CLUSTER_TYPE
               value: "k8s,bgp"
-            - name: IP_AUTODETECTION_METHOD
-              value: "interface=^e.*"
             # Auto-detect the BGP IP address.
             - name: IP
               value: "autodetect"
-            - name: IP6
-              value: "autodetect"
             # Enable IPIP
             - name: CALICO_IPV4POOL_IPIP
-              value: "Always"
+              value: "Never"
             # Enable or Disable VXLAN on the default IP pool.
             - name: CALICO_IPV4POOL_VXLAN
-              value: "Never"
+              value: "CrossSubnet"
             # Enable or Disable VXLAN on the default IPv6 IP pool.
             - name: CALICO_IPV6POOL_VXLAN
-              value: "Never"
+              value: "CrossSubnet"
             # Set MTU for tunnel device used if ipip is enabled
             - name: FELIX_IPINIPMTU
               valueFrom:
@@ -4965,7 +4961,6 @@ spec:
               command:
               - /bin/calico-node
               - -felix-live
-              - -bird-live
             periodSeconds: 10
             initialDelaySeconds: 10
             failureThreshold: 6
@@ -4975,7 +4970,6 @@ spec:
               command:
               - /bin/calico-node
               - -felix-ready
-              - -bird-ready
             periodSeconds: 10
             timeoutSeconds: 10
           volumeMounts:
