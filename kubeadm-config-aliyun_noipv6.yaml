@@ -1,21 +1,22 @@
 apiVersion: kubeadm.k8s.io/v1beta3
 bootstrapTokens:
-- groups:
-  - system:bootstrappers:kubeadm:default-node-token
-  token: abcdef.0123456789abcdef
-  ttl: 24h0m0s
-  usages:
-  - signing
-  - authentication
+  - groups:
+      - system:bootstrappers:kubeadm:default-node-token
+    token: abcdef.0123456789abcdef
+    ttl: 24h0m0s
+    usages:
+      - signing
+      - authentication
 kind: InitConfiguration
-localAPIEndpoint:
-  advertiseAddress: 192.168.50.185      # 填你机器的内网ip。（你有固定的公网ip，且想进行公网集群部署，这样的话，填你公网Ip）
-  bindPort: 6443
 nodeRegistration:
-  #criSocket: /var/run/containerd/containerd.sock
+  criSocket: /var/run/containerd/containerd.sock
   imagePullPolicy: IfNotPresent
   name: dq77kb                          # 填写你的当前的计算机名 通过 `hostname` 命令可以看到
   taints: null
+  ignorePreflightErrors:
+    - IsPrivilegedUser
+    - Mem
+    - swap
 ---
 apiServer:
   timeoutForControlPlane: 4m0s
@@ -33,11 +34,9 @@ etcd:
   local:
     dataDir: /var/lib/etcd
 imageRepository: registry.aliyuncs.com/google_containers      # 这里已经将镜像地址替换成了阿里云的地址。正版地址被墙了。 正版地址是 k8s.gcr.io
-#featureGates:
-#  IPv6DualStack: false
 kind: ClusterConfiguration
 kubernetesVersion: 1.26.6
-controlPlaneEndpoint: ""                                      # 多master的情况下，这里填入vip:port 对应的值。
+controlPlaneEndpoint: "192.168.50.185:6443"                   # 单master填你机器的内网ip。 多master的情况下，这里填入vip:port 对应的值。
 networking:
   dnsDomain: cluster.local
   serviceSubnet: 10.96.0.0/12
@@ -54,7 +53,7 @@ memorySwap:
   swapBehavior: UnlimitedSwap
 #resolvConf: /etc/resolv.conf
 # kubelet specific options here
----
-apiVersion: kubeproxy.config.k8s.io/v1alpha1
-kind: KubeProxyConfiguration
-mode: ipvs
+#---
+#apiVersion: kubeproxy.config.k8s.io/v1alpha1
+#kind: KubeProxyConfiguration
+#mode: ipvs
