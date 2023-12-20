@@ -31,6 +31,9 @@ bash init-config.sh
    > 安装完成后，会有提示让你复制秘钥文件到 $HOME/.kube 下，安装它的提示执行相关命令即可
    > 
    > 如果你是单节点运行，请在配置了config后执行 `bash single_master.sh`
+   > 
+   > 将当前节点加入master的角色 `kubectl label nodes ubuntu-master node-role.kubernetes.io/master=` 其中 `ubuntu-master`换成你自己的`nodename`
+   >
 4. 配置k8s秘钥
 ```shell
 mkdir -p $HOME/.kube
