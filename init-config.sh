@@ -84,7 +84,8 @@ echo "开始安装k8s"
 sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://mirrors.aliyun.com/kubernetes-new/core/stable/v1.26/deb/Release.key
 echo "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://mirrors.aliyun.com/kubernetes-new/core/stable/v1.26/deb/ /" | sudo tee /etc/apt/sources.list.d/k8s.list
 sudo apt-get update
-sudo apt install -y kubelet=1.26.6-00 kubeadm=1.26.6-00 kubectl=1.26.6-00 --allow-downgrades --allow-change-held-packages
-sudo apt-mark hold kubelet kubeadm kubectl
+#sudo apt install -y kubelet=1.26.6-00 kubeadm=1.26.6-00 kubectl=1.26.6-00 --allow-downgrades --allow-change-held-packages
+sudo apt install -y kubelet kubeadm kubectl
+#sudo apt-mark hold kubelet kubeadm kubectl
 echo "KUBELET_EXTRA_ARGS=--cgroup-driver=systemd --fail-swap-on=false --max-pods=900"| sudo tee /etc/default/kubelet
 
