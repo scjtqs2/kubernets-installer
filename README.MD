@@ -142,6 +142,7 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 4. 锁定 kubeadm工具版本号 (master和node都执行)： `sudo apt-mark hold kubelet kubeadm kubectl`
 
 ps: 大版本升级需要小心，注意api版本是否兼容。k8s大版本升级只能一级一级的升上去。不能跨多个大版本升级。
+> 因阿里云的k8s源调整，换大版本，需要手动修改`/etc/apt/sources.list.d/k8s.list`文件中的版本号。并重新拉取对应版本的gpg公钥。
 
 ### !!!k8s 系统证书问题
 因为默认生成的证书有效期只有1年，所以每年都需要更新一次系统证书。
