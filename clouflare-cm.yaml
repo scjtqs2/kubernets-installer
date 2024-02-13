@@ -12,6 +12,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: cloudflare-api-key-secret
+  namespace: cert-manager
 type: Opaque
 stringData:
   api-key: 你的全局key  # 全局token，不需要 base64 加密。
