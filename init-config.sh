@@ -89,3 +89,4 @@ sudo apt install -y kubelet kubeadm kubectl
 #sudo apt-mark hold kubelet kubeadm kubectl
 echo "KUBELET_EXTRA_ARGS=--cgroup-driver=systemd --fail-swap-on=false --max-pods=900"| sudo tee /etc/default/kubelet
 sudo systemctl daemon-reload
+sudo system enable kubelet
